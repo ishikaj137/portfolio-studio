@@ -1,0 +1,108 @@
+.section {
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.header {
+  padding: 48px var(--pad-x) 40px;
+}
+
+.list {
+  border-top: 1px solid var(--border);
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 32px var(--pad-x);
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  transition: background 0.3s ease, padding-left 180ms ease;
+}
+
+.row:hover {
+  background: var(--surface);
+  padding-left: calc(var(--pad-x) + 16px);
+}
+
+.left {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  flex: 1;
+  min-width: 0;
+}
+
+.year {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--faint);
+  white-space: nowrap;
+  padding-top: 4px;
+  min-width: 36px;
+}
+
+.name {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.desc {
+  font-size: 13.5px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 520px;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: flex-end;
+}
+
+.caseLink {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1px;
+  white-space: nowrap;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.caseLink:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+@media (max-width: 768px) {
+  .row { padding: 28px var(--pad-x-tab); flex-direction: column; gap: 16px; }
+  .row:hover { padding-left: calc(var(--pad-x-tab) + 12px); }
+  .right { align-items: flex-start; }
+  .tags { justify-content: flex-start; }
+  .header { padding: 40px var(--pad-x-tab) 32px; }
+}
+
+@media (max-width: 640px) {
+  .row { padding: 24px var(--pad-x-mob); }
+  .row:hover { padding-left: calc(var(--pad-x-mob) + 10px); }
+  .left { flex-direction: column; gap: 8px; }
+  .header { padding: 36px var(--pad-x-mob) 28px; }
+}

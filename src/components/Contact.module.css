@@ -1,0 +1,109 @@
+.section {
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.header {
+  padding: 48px var(--pad-x) 40px;
+  border-bottom: 1px solid var(--border);
+}
+
+.inner {
+  padding: 56px var(--pad-x) 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.heading {
+  font-size: clamp(22px, 2.8vw, 32px);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin-bottom: 14px;
+  line-height: 1.15;
+}
+
+.sub {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.75;
+}
+
+.links {
+  display: flex;
+  gap: 64px;
+  flex-wrap: wrap;
+}
+
+.linkItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.linkLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--faint);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.linkText {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2px;
+  display: inline-block;
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.linkText:hover {
+  border-color: var(--text);
+  color: var(--muted);
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.footerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px var(--pad-x);
+}
+
+.footerBrand {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.footerMeta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--faint);
+}
+
+@media (max-width: 768px) {
+  .inner { padding: 44px var(--pad-x-tab) 56px; gap: 40px; }
+  .links { gap: 40px; }
+  .header { padding: 40px var(--pad-x-tab) 32px; }
+  .footerInner { padding: 16px var(--pad-x-tab); }
+}
+
+@media (max-width: 640px) {
+  .inner { padding: 36px var(--pad-x-mob) 48px; gap: 32px; }
+  .links { flex-direction: column; gap: 28px; }
+  .header { padding: 36px var(--pad-x-mob) 28px; }
+  .footerInner { padding: 16px var(--pad-x-mob); }
+}

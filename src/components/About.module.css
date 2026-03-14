@@ -1,0 +1,112 @@
+.section {
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.header {
+  padding: 48px var(--pad-x) 40px;
+  border-bottom: 1px solid var(--border);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  min-height: 320px;
+}
+
+.studioCopy {
+  padding: 48px var(--pad-x) 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.studioHeading {
+  font-size: clamp(20px, 2.4vw, 26px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.studioText {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.divider {
+  background: var(--border);
+  align-self: stretch;
+}
+
+.team {
+  padding: 48px var(--pad-x) 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.member {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.memberName {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.memberRole {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--faint);
+  letter-spacing: 0.03em;
+  margin-bottom: 4px;
+}
+
+.memberBio {
+  font-size: 13.5px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.memberLinks {
+  display: flex;
+  gap: 20px;
+  margin-top: 6px;
+}
+
+.memberLink {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1px;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.memberLink:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+  .divider { height: 1px; width: auto; }
+  .studioCopy { padding: 40px var(--pad-x-tab) 36px; }
+  .team { padding: 40px var(--pad-x-tab) 40px; }
+  .header { padding: 40px var(--pad-x-tab) 32px; }
+}
+
+@media (max-width: 640px) {
+  .studioCopy { padding: 32px var(--pad-x-mob) 28px; }
+  .team { padding: 32px var(--pad-x-mob) 36px; }
+  .header { padding: 36px var(--pad-x-mob) 28px; }
+}
