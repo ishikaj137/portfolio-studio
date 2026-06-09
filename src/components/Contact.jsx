@@ -38,11 +38,11 @@ export default function Contact() {
             }}
           >
             <h2 className={styles.heading} id="contact-heading">
-              Let&rsquo;s build something.
+              Let&apos;s Build Something Impactful.
             </h2>
             <p className={styles.sub}>
-              We take on select projects. If you are building something that needs AI, maps, or
-              both — reach out.
+              Whether you&apos;re building a startup, transforming an organization, or developing
+              public-sector technology, we&apos;re ready to help.
             </p>
           </motion.div>
 

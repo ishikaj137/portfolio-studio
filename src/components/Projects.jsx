@@ -8,22 +8,34 @@ const PROJECTS = [
   {
     year: '2024',
     name: 'TriBoT',
-    desc: 'AI chatbot helping tribal citizens navigate the Forest Rights Act through document search and plain-language answers.',
-    tags: ['AI', 'RAG', 'Python', 'Government'],
+    desc: 'AI-powered chatbot developed for the Ministry of Tribal Affairs using RAG architecture to provide intelligent access to government schemes and policy information.',
+    challenge: 'Government scheme and policy information was difficult to search, interpret, and explain consistently across users.',
+    solution: 'Built a retrieval-augmented AI assistant that grounds answers in trusted documents and responds in accessible language.',
+    technologies: ['OpenAI', 'LangChain', 'Python', 'FastAPI', 'RAG'],
+    impact: 'Improved access to policy knowledge and reduced friction for teams and citizens seeking reliable answers.',
+    tags: ['AI', 'RAG', 'Government'],
     href: '#',
   },
   {
     year: '2024',
     name: 'FRA Atlas',
-    desc: 'WebGIS platform for forest rights mapping across India, built in collaboration with the Ministry of Tribal Affairs.',
-    tags: ['GIS', 'React', 'Leaflet', 'Government'],
+    desc: 'Interactive WebGIS platform for geospatial visualization and analysis of forest rights and land-related datasets.',
+    challenge: 'Forest rights and land datasets needed a clear geospatial interface for exploration, comparison, and analysis.',
+    solution: 'Engineered a WebGIS platform with interactive map layers, spatial data views, and analysis-ready workflows.',
+    technologies: ['React', 'Leaflet', 'Mapbox', 'PostgreSQL', 'GIS'],
+    impact: 'Enabled more usable spatial insight for public-sector planning, review, and field-aligned decision-making.',
+    tags: ['GIS', 'WebGIS', 'Government'],
     href: '#',
   },
   {
     year: '2023',
-    name: 'Land Geotagging App',
-    desc: 'Mobile application for field-level land parcel mapping and structured data collection in rural areas.',
-    tags: ['Flutter', 'GIS', 'Data Collection'],
+    name: 'Land Mapping App',
+    desc: 'Mobile geotagging and survey application designed for efficient field data collection and mapping.',
+    challenge: 'Field teams needed a faster way to capture location-linked survey data with fewer manual handoffs.',
+    solution: 'Designed a mobile-first geotagging workflow for structured surveys, map-linked records, and cleaner data collection.',
+    technologies: ['Mobile', 'GIS', 'Geotagging', 'Survey Data'],
+    impact: 'Reduced field-data friction and improved the reliability of land mapping and survey operations.',
+    tags: ['Mobile', 'GIS', 'Survey'],
     href: '#',
   },
 ]
@@ -48,6 +60,24 @@ function ProjectRow({ project, delay }) {
             {project.name}
           </h3>
           <p className={styles.desc}>{project.desc}</p>
+          <dl className={styles.caseDetails}>
+            <div>
+              <dt>Challenge</dt>
+              <dd>{project.challenge}</dd>
+            </div>
+            <div>
+              <dt>Solution</dt>
+              <dd>{project.solution}</dd>
+            </div>
+            <div>
+              <dt>Technologies Used</dt>
+              <dd>{project.technologies.join(', ')}</dd>
+            </div>
+            <div>
+              <dt>Impact</dt>
+              <dd>{project.impact}</dd>
+            </div>
+          </dl>
         </div>
       </div>
 

@@ -19,7 +19,6 @@ const fadeUp = {
 export default function Hero() {
   const { theme } = useTheme()
   const heroRef = useRef(null)
-  const gridRef = useRef(null)
   const glowRef = useRef(null)
 
   const mousePos = useRef({ x: 0, y: 0 })
@@ -52,14 +51,11 @@ export default function Hero() {
       cx.x += (mx.x - cx.x) * LERP
       cx.y += (mx.y - cx.y) * LERP
 
-      if (gridRef.current) {
-        const panX = (cx.x - window.innerWidth / 2) * PARALLAX_FACTOR
-        const panY = (cx.y - window.innerHeight / 2) * PARALLAX_FACTOR
-        gridRef.current.style.transform = `translate(${-panX}px, ${-panY}px)`
-      }
 
       if (glowRef.current) {
-        glowRef.current.style.background = `radial-gradient(200px circle at ${cx.x}px ${cx.y}px, rgba(255,255,255,0.04), transparent)`
+        const isDark = document.documentElement.getAttribute('data-theme') !== 'light'
+        const glowColor = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'
+        glowRef.current.style.background = `radial-gradient(200px circle at ${cx.x}px ${cx.y}px, ${glowColor}, transparent)`
       }
 
       rafId.current = requestAnimationFrame(tick)
@@ -75,8 +71,6 @@ export default function Hero() {
 
   return (
     <section ref={heroRef} className={styles.hero} aria-label="Hero">
-      {/* Dot grid — visible in both themes */}
-      <div ref={gridRef} className={styles.gridLayer} aria-hidden="true" />
 
       {/* Cursor glow — dark mode only via CSS */}
       <div ref={glowRef} className={styles.glowLayer} aria-hidden="true" />
@@ -113,7 +107,7 @@ export default function Hero() {
           custom={0.2}
           variants={fadeUp}
         >
-          AI &amp; Geospatial Studio — Indore, India
+          AI, GIS &amp; Product Engineering Studio
         </motion.p>
 
         <motion.h1
@@ -123,11 +117,11 @@ export default function Hero() {
           custom={0.4}
           variants={fadeUp}
         >
-          We build AI systems
+          AI. Maps. Software.
           <br />
-          and <em>geospatial tools</em>
+          Built for Organizations That Need
           <br />
-          that work.
+          <em>More Than Just Another Website.</em>
         </motion.h1>
 
         <motion.p
@@ -137,7 +131,8 @@ export default function Hero() {
           custom={0.6}
           variants={fadeUp}
         >
-          A small studio focused on AI, GIS, and civic technology — for startups, NGOs, and government.
+          We design and engineer intelligent systems, geospatial platforms, and scalable digital
+          products that solve real-world challenges.
         </motion.p>
 
         <motion.div
@@ -147,11 +142,11 @@ export default function Hero() {
           custom={0.8}
           variants={fadeUp}
         >
-          <a href="#work" className={styles.ctaPrimary} aria-label="See our work">
-            See our work &rarr;
+          <a href="#work" className={styles.ctaPrimary} aria-label="View our work">
+            View Our Work
           </a>
           <a href="#contact" className={styles.ctaSecondary}>
-            Get in touch
+            Let&apos;s Build Together
           </a>
         </motion.div>
       </div>
@@ -163,7 +158,7 @@ export default function Hero() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.1, ease: EASE }}
       >
-        MoTA &middot; FRA Atlas &middot; TriBoT &middot; GDG On Campus &middot; AI Summit
+        AI &middot; GIS &middot; Product Engineering &middot; Automation &middot; Modern Web Platforms
       </motion.p>
     </section>
   )

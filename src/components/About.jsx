@@ -4,21 +4,28 @@ import styles from './About.module.css'
 
 const EASE = [0.16, 1, 0.3, 1]
 
-const TEAM = [
-  {
-    name: 'Jayesh Malviya',
-    role: 'Co-founder & AI Engineer',
-    bio: 'Specialises in WebGIS platforms and spatial data infrastructure. Contributed to forest rights mapping across eleven Indian states.',
-    github: '#',
-    linkedin: '#',
-  },
-  {
-    name: 'Ishika Jain',
-    role: 'Co-founder & AI Engineer',
-    bio: 'Builds RAG systems and AI pipelines. Has worked on government AI tools deployed at national scale across tribal welfare and civic data.',
-    github: '#',
-    linkedin: '#',
-  },
+const WHY_US = [
+  'Government Project Experience',
+  'AI & GIS Expertise',
+  'End-to-End Product Development',
+  'Scalable Modern Architecture',
+  'Human-Centered Design',
+  'Fast Execution',
+]
+
+const STACK = [
+  'Next.js',
+  'React',
+  'TypeScript',
+  'Python',
+  'FastAPI',
+  'PostgreSQL',
+  'OpenAI',
+  'LangChain',
+  'Mapbox',
+  'Leaflet',
+  'Docker',
+  'AWS',
 ]
 
 export default function About() {
@@ -50,22 +57,27 @@ export default function About() {
           }}
         >
           <h2 className={styles.studioHeading} id="about-heading">
-            A small studio. Serious work.
+            AI, GIS, and software solutions for organizations solving real problems.
           </h2>
           <p className={styles.studioText}>
-            Latent Labs is a small AI and geospatial studio. We build tools that are useful,
-            accurate, and built to last — for organizations that care about impact.
+            Latent Labs is a premium AI and product engineering studio specializing in
+            intelligent systems, geospatial platforms, automation, and modern web products.
           </p>
           <p className={styles.studioText}>
-            We have worked on government AI projects, forest rights mapping platforms,
-            and civic technology tools across India.
+            We partner with startups, enterprises, NGOs, and government organizations to turn
+            complex operational needs into reliable intelligent digital systems.
           </p>
+          <div className={styles.stack} aria-label="Technology stack">
+            {STACK.map(item => (
+              <span key={item} className="tag">{item}</span>
+            ))}
+          </div>
         </motion.div>
 
         {/* Vertical divider */}
         <div className={styles.divider} aria-hidden="true" />
 
-        {/* Right — team */}
+        {/* Right — why us */}
         <motion.div
           className={styles.team}
           variants={{
@@ -73,26 +85,17 @@ export default function About() {
             visible: { transition: { staggerChildren: 0.1 } },
           }}
         >
-          {TEAM.map(member => (
+          {WHY_US.map(item => (
             <motion.div
-              key={member.name}
+              key={item}
               className={styles.member}
               variants={{
                 hidden: { opacity: 0, y: 16 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
               }}
             >
-              <p className={styles.memberName}>{member.name}</p>
-              <p className={styles.memberRole}>{member.role}</p>
-              <p className={styles.memberBio}>{member.bio}</p>
-              <div className={styles.memberLinks}>
-                <a href={member.github} className={styles.memberLink} aria-label={`${member.name} GitHub`}>
-                  GitHub &rarr;
-                </a>
-                <a href={member.linkedin} className={styles.memberLink} aria-label={`${member.name} LinkedIn`}>
-                  LinkedIn &rarr;
-                </a>
-              </div>
+              <p className={styles.memberRole}>Why Us</p>
+              <p className={styles.memberName}>{item}</p>
             </motion.div>
           ))}
         </motion.div>

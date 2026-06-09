@@ -22,6 +22,7 @@ html[data-theme="dark"] {
   --tag-bg:       #1A2419;
   --tag-text:     #8AAF86;
   --white:        #FFFFFF;
+  --dot-color:    rgba(255, 255, 255, 0.55);
 
   --accent-green: #C4D4C0;
   --accent-clay:  #E8D5C4;
@@ -53,6 +54,7 @@ html[data-theme="light"] {
   --tag-bg:       #EBF2E9;
   --tag-text:     #4A7A45;
   --white:        #FFFFFF;
+  --dot-color:    rgba(0, 0, 0, 0.45);
 
   --nav-bg:       rgba(249, 249, 248, 0.85);
   --nav-text:     #111110;
