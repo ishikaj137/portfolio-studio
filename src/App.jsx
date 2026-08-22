@@ -1,14 +1,22 @@
 import { ThemeProvider } from './ThemeContext'
+import { RouterProvider, useRouter } from './RouterContext'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Services from './components/Services'
 import Projects from './components/Projects'
 import About from './components/About'
 import Contact from './components/Contact'
+import Botway from './components/Botway'
 
-export default function App() {
+function AppContent() {
+  const { isBotway } = useRouter()
+
+  if (isBotway) {
+    return <Botway />
+  }
+
   return (
-    <ThemeProvider>
+    <>
       <Navbar />
       <main>
         <Hero />
@@ -17,6 +25,16 @@ export default function App() {
         <About />
         <Contact />
       </main>
+    </>
+  )
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <RouterProvider>
+        <AppContent />
+      </RouterProvider>
     </ThemeProvider>
   )
 }

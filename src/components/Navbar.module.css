@@ -55,11 +55,27 @@
   font-weight: 400;
   color: var(--muted);
   transition: color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .link:hover {
   color: var(--text);
 }
+
+.botwayPill {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(255, 82, 142, 0.15);
+  color: #ff528e;
+  border: 1px solid rgba(255, 82, 142, 0.3);
+}
+
 
 /* Theme toggle */
 .themeToggle {

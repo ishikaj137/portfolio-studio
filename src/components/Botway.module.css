@@ -1,0 +1,37 @@
+/* ============================================================
+   BOTWAY FULLSCREEN VIDEO LANDING
+   Fit & Centered Full-Viewport Display without Cropping
+============================================================ */
+
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0a0118;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  z-index: 9999;
+}
+
+.video {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: #0a0118;
+}

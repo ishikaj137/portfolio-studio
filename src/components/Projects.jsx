@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
+import { useRouter } from '../RouterContext'
 import styles from './Projects.module.css'
 
 const EASE = [0.16, 1, 0.3, 1]
@@ -43,6 +44,14 @@ const PROJECTS = [
 function ProjectRow({ project, delay }) {
   const ref = useRef()
   const isInView = useInView(ref, { once: true, margin: '-60px' })
+  const { navigate } = useRouter()
+
+  const handleLinkClick = (e) => {
+    if (project.href.startsWith('/')) {
+      e.preventDefault()
+      navigate(project.href)
+    }
+  }
 
   return (
     <motion.article
@@ -89,10 +98,11 @@ function ProjectRow({ project, delay }) {
         </div>
         <a
           href={project.href}
+          onClick={handleLinkClick}
           className={styles.caseLink}
           aria-label={`View ${project.name} case study`}
         >
-          View case study &rarr;
+          {project.ctaText || 'View case study →'}
         </a>
       </div>
     </motion.article>

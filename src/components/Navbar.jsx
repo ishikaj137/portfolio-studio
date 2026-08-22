@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '../ThemeContext'
+import { useRouter } from '../RouterContext'
 import styles from './Navbar.module.css'
 
 const EASE = [0.16, 1, 0.3, 1]
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme()
+  const { navigate } = useRouter()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -22,6 +24,12 @@ export default function Navbar() {
   }, [menuOpen])
 
   const closeMenu = () => setMenuOpen(false)
+
+  const handleNavClick = (e, href) => {
+    e.preventDefault()
+    navigate(href)
+    closeMenu()
+  }
 
   const navLinks = [
     { label: 'Work',     href: '#work' },
@@ -40,7 +48,12 @@ export default function Navbar() {
         role="banner"
       >
         <div className={styles.inner}>
-          <a href="#" className={styles.brand} aria-label="Latent Labs home">
+          <a
+            href="/"
+            onClick={(e) => handleNavClick(e, '/')}
+            className={styles.brand}
+            aria-label="Latent Labs home"
+          >
             Latent Labs
           </a>
 
@@ -48,11 +61,17 @@ export default function Navbar() {
             {/* Desktop links */}
             <nav className={styles.links} aria-label="Main navigation">
               {navLinks.map(link => (
-                <a key={link.label} href={link.href} className={styles.link}>
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={styles.link}
+                >
                   {link.label}
                 </a>
               ))}
             </nav>
+
 
             {/* Theme toggle */}
             <button
@@ -120,7 +139,7 @@ export default function Navbar() {
                   key={link.label}
                   href={link.href}
                   className={styles.overlayLink}
-                  onClick={closeMenu}
+                  onClick={(e) => handleNavClick(e, link.href)}
                   variants={{
                     hidden: { opacity: 0, y: 12 },
                     visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE } },
