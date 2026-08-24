@@ -1,6 +1,18 @@
 {
   "rewrites": [
     {
+      "source": "/botway/assets/(.*)",
+      "destination": "/botway/assets/$1"
+    },
+    {
+      "source": "/botway",
+      "destination": "/botway/index.html"
+    },
+    {
+      "source": "/botway/(.*)",
+      "destination": "/botway/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
