@@ -1,134 +1,737 @@
+/* ============================================================
+   PROJECTS — Dribbble "Hey James!" Style Visual Cards + Modal
+   northh.space
+============================================================ */
+
 .section {
+  position: relative;
   border-top: 1px solid var(--border);
   background: var(--bg);
+  padding: 100px 0 130px;
+  transition: background-color 0.3s ease;
 }
 
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--pad-x);
+}
+
+/* ── Section Header ── */
 .header {
-  padding: 48px var(--pad-x) 40px;
+  max-width: 720px;
+  margin-bottom: 48px;
 }
 
-.list {
-  border-top: 1px solid var(--border);
-}
-
-.row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 32px;
-  padding: 32px var(--pad-x);
-  border-bottom: 1px solid var(--border);
-  background: transparent;
-  transition: background 0.3s ease, padding-left 180ms ease;
-}
-
-.row:hover {
-  background: var(--surface);
-  padding-left: calc(var(--pad-x) + 16px);
-}
-
-.left {
-  display: flex;
-  align-items: flex-start;
-  gap: 28px;
-  flex: 1;
-  min-width: 0;
-}
-
-.year {
+.sectionTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 300;
-  color: var(--faint);
-  white-space: nowrap;
-  padding-top: 4px;
-  min-width: 36px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 12px;
 }
 
-.name {
-  font-size: 20px;
-  font-weight: 500;
+.sectionTagDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #cd445d;
+}
+
+.heading {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 400;
   letter-spacing: -0.02em;
   color: var(--text);
-  margin-bottom: 6px;
-  line-height: 1.2;
+  line-height: 1.15;
+  margin-bottom: 16px;
 }
 
-.desc {
-  font-size: 13.5px;
+.subheading {
+  font-size: 15px;
   font-weight: 300;
   color: var(--muted);
   line-height: 1.65;
-  max-width: 520px;
+  max-width: 620px;
 }
 
-.caseDetails {
+/* ── 3-Column Dribbble Card Grid ── */
+.grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px 24px;
-  margin-top: 18px;
-  max-width: 740px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
 }
 
-.caseDetails dt {
+/* ── Visual Media Card (matching reference) ── */
+.card {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  min-height: 490px;
+  border-radius: 26px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.45);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease;
+  user-select: none;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 28px 60px -12px rgba(0, 0, 0, 0.75);
+}
+
+:global([data-theme="light"]) .card {
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 30px -6px rgba(0, 0, 0, 0.1);
+}
+
+:global([data-theme="light"]) .card:hover {
+  border-color: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.2);
+}
+
+/* Background Artwork Image */
+.cardBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .cardBg {
+  transform: scale(1.05);
+}
+
+/* Gradient Vignette Overlay */
+.cardOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 5, 5, 0.72) 0%,
+    rgba(5, 5, 5, 0.15) 28%,
+    rgba(5, 5, 5, 0.35) 60%,
+    rgba(5, 5, 5, 0.95) 100%
+  );
+  pointer-events: none;
+}
+
+/* Card Content Container */
+.cardContent {
+  position: absolute;
+  inset: 0;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+/* ── Top Bar inside Card ── */
+.topBar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.profilePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 11px 4px 5px;
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.68);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.profileAvatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+}
+
+.profileName {
+  font-size: 12px;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.verifiedCheck {
+  color: #38BDF8;
+  font-size: 11px;
+}
+
+.badgeTag {
   font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
+  font-size: 9px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--faint);
-  margin-bottom: 4px;
 }
 
-.caseDetails dd {
-  font-size: 12.5px;
+.metricBadge {
+  padding: 5px 12px;
+  border-radius: 14px;
+  background: rgba(10, 10, 10, 0.68);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  text-align: right;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.metricNumber {
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  line-height: 1.1;
+  display: block;
+}
+
+.metricLabel {
+  font-size: 8.5px;
+  font-family: var(--font-mono);
+  color: rgba(255, 255, 255, 0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-top: 1px;
+}
+
+/* ── Bottom Glassmorphic Panel (matching reference card widgets) ── */
+.bottomCardPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(12, 12, 12, 0.68);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.card:hover .bottomCardPanel {
+  background: rgba(16, 16, 16, 0.8);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ratingGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.starScore {
+  font-size: 11px;
+  font-weight: 700;
+  color: #F59E0B;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.ratingSubtext {
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: var(--font-mono);
+}
+
+.liveGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.cardSubtitle {
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Dual Frosted Action Buttons (matching reference) */
+.actionButtonGroup {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.btnPrimary {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 9px 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.card:hover .btnPrimary {
+  background: #FFFFFF;
+  color: #0A0A09;
+  border-color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.3);
+}
+
+.btnSecondary {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 9px 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btnSecondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+/* ============================================================
+   CASE STUDY MODAL POPUP
+============================================================ */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modalContainer {
+  position: relative;
+  width: 100%;
+  max-width: 860px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  box-shadow: 0 32px 80px -15px rgba(0, 0, 0, 0.8),
+              0 0 0 1px rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.modalHeroBanner {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  border-radius: 25px 25px 0 0;
+}
+
+.modalHeroImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modalHeroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(14, 14, 13, 0.7) 60%,
+    var(--surface) 100%
+  );
+}
+
+.modalCloseBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.25s ease, background-color 0.2s ease;
+  z-index: 10;
+}
+
+.modalCloseBtn:hover {
+  transform: rotate(90deg) scale(1.08);
+  background: #FFFFFF;
+  color: #0A0A09;
+}
+
+.modalBody {
+  padding: 28px 36px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.modalHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modalMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.modalCategory {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.modalTitle {
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  line-height: 1.15;
+}
+
+.modalSubtitle {
+  font-size: 14.5px;
   font-weight: 300;
   color: var(--muted);
   line-height: 1.6;
 }
 
-.right {
+/* Modal Metrics */
+.modalMetricsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  padding: 18px 22px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.modalMetricCard {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 14px;
+  gap: 3px;
+  text-align: center;
+}
+
+.modalMetricNumber {
+  font-size: clamp(20px, 2.6vw, 26px);
+  font-weight: 600;
+  color: var(--text);
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+}
+
+.modalMetricText {
+  font-size: 10.5px;
+  font-family: var(--font-mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Modal Columns */
+.modalColumns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.modalSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalSectionTitle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modalSectionDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text);
+}
+
+.modalSectionBody {
+  font-size: 13.5px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.architectureList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.architectureItem {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.architectureMarker {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  margin-top: 2px;
   flex-shrink: 0;
 }
 
-.tags {
+.techPillsGrid {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  justify-content: flex-end;
+  gap: 7px;
+  margin-top: 4px;
 }
 
-.caseLink {
+.techPill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 5px 11px;
+  border-radius: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+/* Modal Footer */
+.modalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.modalFooterInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.modalFooterLabel {
+  font-size: 11.5px;
+  color: var(--faint);
+  font-family: var(--font-mono);
+}
+
+.modalFooterClient {
   font-size: 13px;
   font-weight: 400;
-  color: var(--muted);
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 1px;
-  white-space: nowrap;
-  transition: color 150ms ease, border-color 150ms ease;
+  color: var(--text);
 }
 
-.caseLink:hover {
+.modalActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modalPrimaryBtn {
+  background: var(--text);
+  color: var(--bg);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.modalPrimaryBtn:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+.modalSecondaryBtn {
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.modalSecondaryBtn:hover {
   color: var(--text);
   border-color: var(--text);
 }
 
-@media (max-width: 768px) {
-  .row { padding: 28px var(--pad-x-tab); flex-direction: column; gap: 16px; }
-  .row:hover { padding-left: calc(var(--pad-x-tab) + 12px); }
-  .right { align-items: flex-start; }
-  .tags { justify-content: flex-start; }
-  .header { padding: 40px var(--pad-x-tab) 32px; }
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-@media (max-width: 640px) {
-  .row { padding: 24px var(--pad-x-mob); }
-  .row:hover { padding-left: calc(var(--pad-x-mob) + 10px); }
-  .left { flex-direction: column; gap: 8px; }
-  .caseDetails { grid-template-columns: 1fr; gap: 12px; }
-  .header { padding: 36px var(--pad-x-mob) 28px; }
+@media (max-width: 680px) {
+  .section {
+    padding: 70px 0 90px;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .modalBody {
+    padding: 20px;
+    gap: 20px;
+  }
+  .modalColumns {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .modalMetricsGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .modalFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .modalActions {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }

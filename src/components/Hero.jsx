@@ -1,6 +1,7 @@
-import { lazy, Suspense, useEffect, useRef } from 'react'
+import { lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from '../ThemeContext'
+import GhostFibers from './GhostFibers'
 import styles from './Hero.module.css'
 
 const ThreeScene = lazy(() => import('./ThreeScene'))
@@ -18,62 +19,39 @@ const fadeUp = {
 
 export default function Hero() {
   const { theme } = useTheme()
-  const heroRef = useRef(null)
-  const glowRef = useRef(null)
-
-  const mousePos = useRef({ x: 0, y: 0 })
-  const currentPos = useRef({ x: 0, y: 0 })
-  const rafId = useRef()
-
-  useEffect(() => {
-    mousePos.current = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
-    currentPos.current = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
-
-    const heroEl = heroRef.current
-    if (!heroEl) return
-
-    const onMouseMove = (e) => {
-      const rect = heroEl.getBoundingClientRect()
-      mousePos.current = {
-        x: e.clientX,
-        y: e.clientY - rect.top,
-      }
-    }
-    window.addEventListener('mousemove', onMouseMove, { passive: true })
-
-    const LERP = 0.08
-    const PARALLAX_FACTOR = 0.015
-
-    const tick = () => {
-      const cx = currentPos.current
-      const mx = mousePos.current
-
-      cx.x += (mx.x - cx.x) * LERP
-      cx.y += (mx.y - cx.y) * LERP
-
-
-      if (glowRef.current) {
-        const isDark = document.documentElement.getAttribute('data-theme') !== 'light'
-        const glowColor = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'
-        glowRef.current.style.background = `radial-gradient(200px circle at ${cx.x}px ${cx.y}px, ${glowColor}, transparent)`
-      }
-
-      rafId.current = requestAnimationFrame(tick)
-    }
-
-    rafId.current = requestAnimationFrame(tick)
-
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove)
-      cancelAnimationFrame(rafId.current)
-    }
-  }, [])
 
   return (
-    <section ref={heroRef} className={styles.hero} aria-label="Hero">
-
-      {/* Cursor glow — dark mode only via CSS */}
-      <div ref={glowRef} className={styles.glowLayer} aria-hidden="true" />
+    <section className={styles.hero} aria-label="Hero">
+      {/* Ghost Fibers background */}
+      <div className={styles.fibersBg} aria-hidden="true">
+        <GhostFibers
+          lineColor={theme === 'dark' ? '#d35206' : '#2D5029'}
+          glowColor={theme === 'dark' ? '#a03440' : '#4A7A45'}
+          speed={0.2}
+          scale={2}
+          rotation={0}
+          rotationSpeed={0.25}
+          layers={4}
+          waveAmplitude={0.015}
+          waveFrequency={3}
+          waveSpeed={0.15}
+          layerSpeed={0.08}
+          twist={0.1}
+          twistFrequency={5}
+          twistSpeed={1.2}
+          lineFrequency={5}
+          lineSpacing={2}
+          lineSharpness={16}
+          glowFalloff={10}
+          glowIntensity={1.6}
+          brightness={2}
+          blueBoost={1.25}
+          vignette={0.8}
+          grain={0.05}
+          lightMode={theme === 'light'}
+          dpr={1}
+        />
+      </div>
 
       {/* Grain overlay — dark mode only */}
       {theme === 'dark' && (
@@ -94,9 +72,14 @@ export default function Hero() {
       )}
 
       {/* Three.js star field */}
-      <Suspense fallback={null}>
-        <ThreeScene />
-      </Suspense>
+      <div className={styles.threeSceneWrapper} aria-hidden="true">
+        <Suspense fallback={null}>
+          <ThreeScene />
+        </Suspense>
+      </div>
+
+      {/* Bottom smooth scrim fade into the next section */}
+      <div className={styles.bottomFade} aria-hidden="true" />
 
       {/* Hero text — bottom left */}
       <div className={styles.content}>

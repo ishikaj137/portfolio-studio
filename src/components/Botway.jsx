@@ -20,7 +20,7 @@ export default function Botway() {
     bgVideoRef.current?.play().catch(() => {})
 
     return () => {
-      document.title = 'Latent Labs — AI, GIS & Product Engineering Studio'
+      document.title = 'northh.space — AI, GIS & Product Engineering Studio'
       document.body.style.backgroundColor = prevBg
       document.body.style.overflow = prevOverflow
     }
@@ -71,13 +71,13 @@ export default function Botway() {
         <button
           onClick={() => navigate('/')}
           className={styles.btn}
-          aria-label="Back to Latent Labs"
+          aria-label="Back to northh.space"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="19" y1="12" x2="5" y2="12" />
             <polyline points="12 19 5 12 12 5" />
           </svg>
-          <span>Latent Labs</span>
+          <span>northh.space</span>
         </button>
 
         <button

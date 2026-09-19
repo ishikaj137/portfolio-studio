@@ -60,7 +60,7 @@ export default function About() {
             AI, GIS, and software solutions for organizations solving real problems.
           </h2>
           <p className={styles.studioText}>
-            Latent Labs is a premium AI and product engineering studio specializing in
+            northh.space is a premium AI and product engineering studio specializing in
             intelligent systems, geospatial platforms, automation, and modern web products.
           </p>
           <p className={styles.studioText}>

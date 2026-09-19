@@ -9,11 +9,42 @@
   align-items: flex-end;
 }
 
-/* ── Cursor Glow ── */
-.glowLayer {
+
+/* ── Ghost Fibers Background ── */
+.fibersBg {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.fibersBg :global(canvas) {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 1 !important;
+  pointer-events: none;
+}
+
+/* ── Three.js Star Field ── */
+.threeSceneWrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 2;
+  pointer-events: none;
+}
+
+.threeSceneWrapper :global(canvas) {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 2 !important;
   pointer-events: none;
 }
 
@@ -21,7 +52,7 @@
 .grain {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
   opacity: 0.028;
 }
@@ -32,18 +63,31 @@
   height: 100%;
 }
 
-/* ── Canvas ── */
-.hero :global(canvas) {
-  position: absolute !important;
-  inset: 0 !important;
-  z-index: 3 !important;
+/* ── Bottom Fade into next section ── */
+.bottomFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 380px;
   pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--bg) 6%, transparent) 20%,
+    color-mix(in srgb, var(--bg) 22%, transparent) 40%,
+    color-mix(in srgb, var(--bg) 50%, transparent) 60%,
+    color-mix(in srgb, var(--bg) 82%, transparent) 80%,
+    color-mix(in srgb, var(--bg) 96%, transparent) 92%,
+    var(--bg) 100%
+  );
 }
 
 /* ── Content positioned bottom-left ── */
 .content {
   position: relative;
-  z-index: 4;
+  z-index: 5;
   padding: 0 var(--pad-x) 72px;
   max-width: 780px;
   display: flex;
@@ -114,7 +158,7 @@
   position: absolute;
   bottom: 32px;
   right: var(--pad-x);
-  z-index: 4;
+  z-index: 5;
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 300;

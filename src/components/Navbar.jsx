@@ -52,9 +52,9 @@ export default function Navbar() {
             href="/"
             onClick={(e) => handleNavClick(e, '/')}
             className={styles.brand}
-            aria-label="Latent Labs home"
+            aria-label="northh.space home"
           >
-            Latent Labs
+            northh.space
           </a>
 
           <div className={styles.rightGroup}>

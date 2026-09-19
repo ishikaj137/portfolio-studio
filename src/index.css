@@ -1,5 +1,5 @@
 /* ============================================================
-   GLOBAL RESET + DESIGN TOKENS — LATENT LABS
+   GLOBAL RESET + DESIGN TOKENS — NORTHH.SPACE
    Light/Dark theme via data-theme on <html>
 ============================================================ */
 
@@ -24,6 +24,7 @@ html[data-theme="dark"] {
   --white:        #FFFFFF;
   --dot-color:    rgba(255, 255, 255, 0.55);
 
+  --accent-red:   #cd445d;
   --accent-green: #C4D4C0;
   --accent-clay:  #E8D5C4;
 

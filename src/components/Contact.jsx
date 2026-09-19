@@ -5,7 +5,7 @@ import styles from './Contact.module.css'
 const EASE = [0.16, 1, 0.3, 1]
 
 const CONTACT_LINKS = [
-  { label: 'Email', href: 'mailto:hello@latentlabs.in', text: 'hello@latentlabs.in' },
+  { label: 'Email', href: 'mailto:hello@northh.space', text: 'hello@northh.space' },
   { label: 'Schedule a call', href: 'https://calendly.com', text: 'Book a call →', external: true },
   { label: 'GitHub', href: 'https://github.com', text: 'See our code →', external: true },
 ]
@@ -79,7 +79,7 @@ export default function Contact() {
       {/* Footer */}
       <footer className={styles.footer} role="contentinfo">
         <div className={styles.footerInner}>
-          <span className={styles.footerBrand}>Latent Labs</span>
+          <span className={styles.footerBrand}>northh.space</span>
           <span className={styles.footerMeta}>Bhopal, India &middot; 2025</span>
         </div>
       </footer>
