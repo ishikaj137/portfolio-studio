@@ -1,8 +1,5 @@
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import ScrollStack, { ScrollStackItem } from './ScrollStack'
 import styles from './Services.module.css'
-
-const EASE = [0.16, 1, 0.3, 1]
 
 const SERVICES_DATA = [
   {
@@ -92,9 +89,6 @@ const SERVICES_DATA = [
 ]
 
 export default function Services() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-60px' })
-
   return (
     <section id="services" className={styles.section} aria-labelledby="services-heading">
       {/* Seamless transition elements from Hero */}
@@ -116,25 +110,22 @@ export default function Services() {
           </p>
         </header>
 
-        {/* 2-Column Grid */}
-        <motion.div
-          ref={ref}
-          className={styles.grid}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
-          }}
+        {/* ScrollStack Cards from React Bits */}
+        <ScrollStack
+          useWindowScroll={true}
+          itemDistance="70vh"
+          itemScale={0.025}
+          itemStackDistance={20}
+          stackPosition="18%"
+          scaleEndPosition="8%"
+          baseScale={0.88}
+          blurAmount={0}
+          className={styles.stackScroller}
         >
           {SERVICES_DATA.map((svc) => (
-            <motion.article
+            <ScrollStackItem
               key={svc.id}
-              className={styles.card}
-              variants={{
-                hidden: { opacity: 0, y: 22 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
-              }}
+              itemClassName={styles.stackCard}
             >
               {/* Top Hero Banner */}
               <div className={`${styles.heroBanner} ${svc.bannerClass}`}>
@@ -206,9 +197,9 @@ export default function Services() {
                   <span>{svc.actionText}</span>
                 </a>
               </div>
-            </motion.article>
+            </ScrollStackItem>
           ))}
-        </motion.div>
+        </ScrollStack>
       </div>
     </section>
   )
