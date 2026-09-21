@@ -1,6 +1,5 @@
 import { lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
-import { useTheme } from '../ThemeContext'
 import GhostFibers from './GhostFibers'
 import styles from './Hero.module.css'
 
@@ -18,15 +17,13 @@ const fadeUp = {
 }
 
 export default function Hero() {
-  const { theme } = useTheme()
-
   return (
     <section className={styles.hero} aria-label="Hero">
       {/* Ghost Fibers background */}
       <div className={styles.fibersBg} aria-hidden="true">
         <GhostFibers
-          lineColor={theme === 'dark' ? '#d35206' : '#2D5029'}
-          glowColor={theme === 'dark' ? '#a03440' : '#4A7A45'}
+          lineColor="#d35206"
+          glowColor="#a03440"
           speed={0.2}
           scale={2}
           rotation={0}
@@ -48,14 +45,13 @@ export default function Hero() {
           blueBoost={1.25}
           vignette={0.8}
           grain={0.05}
-          lightMode={theme === 'light'}
+          lightMode={false}
           dpr={1}
         />
       </div>
 
-      {/* Grain overlay — dark mode only */}
-      {theme === 'dark' && (
-        <div className={styles.grain} aria-hidden="true">
+      {/* Grain overlay */}
+      <div className={styles.grain} aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
             <filter id="ll-grain">
               <feTurbulence
@@ -69,7 +65,6 @@ export default function Hero() {
             <rect width="100%" height="100%" filter="url(#ll-grain)" />
           </svg>
         </div>
-      )}
 
       {/* Three.js star field */}
       <div className={styles.threeSceneWrapper} aria-hidden="true">

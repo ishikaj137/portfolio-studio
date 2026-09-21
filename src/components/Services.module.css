@@ -30,15 +30,6 @@
   filter: blur(28px);
 }
 
-:global([data-theme="light"]) .ambientGlow {
-  background: radial-gradient(
-    ellipse 60% 45% at 50% 40%,
-    rgba(74, 122, 69, 0.08) 0%,
-    rgba(45, 80, 41, 0.03) 50%,
-    transparent 75%
-  );
-}
-
 .topDivider {
   position: absolute;
   top: 0;
@@ -56,17 +47,6 @@
   );
   pointer-events: none;
   z-index: 1;
-}
-
-:global([data-theme="light"]) .topDivider {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--border) 20%,
-    rgba(59, 107, 56, 0.35) 50%,
-    var(--border) 80%,
-    transparent 100%
-  );
 }
 
 .container {

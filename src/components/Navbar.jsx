@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useTheme } from '../ThemeContext'
 import { useRouter } from '../RouterContext'
 import styles from './Navbar.module.css'
 
 const EASE = [0.16, 1, 0.3, 1]
 
 export default function Navbar() {
-  const { theme, toggleTheme } = useTheme()
   const { navigate } = useRouter()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -73,16 +71,6 @@ export default function Navbar() {
             </nav>
 
 
-            {/* Theme toggle */}
-            <button
-              className={styles.themeToggle}
-              onClick={toggleTheme}
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            >
-              {theme === 'dark' ? 'Light' : 'Dark'}
-            </button>
-
             {/* Mobile menu button */}
             <button
               className={styles.menuBtn}
@@ -112,10 +100,6 @@ export default function Navbar() {
             transition={{ duration: 0.2, ease: EASE }}
           >
             <div className={styles.overlayTop}>
-              {/* Theme toggle inside overlay too */}
-              <button className={styles.themeToggle} onClick={toggleTheme}>
-                {theme === 'dark' ? 'Light' : 'Dark'}
-              </button>
               <button
                 className={styles.closeBtn}
                 onClick={closeMenu}

@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"npm run dev:main\" \"npm run dev:botway\"",
-    "dev:main": "vite --port 5173",
-    "dev:botway": "vite --config vite.config.botway.js --port 5174",
+    "dev:main": "vite --port 5173 --host",
+    "dev:botway": "vite --config vite.config.botway.js --port 5174 --host",
     "build:main": "vite build",
     "build:botway": "vite build --config vite.config.botway.js",
     "build": "vite build && vite build --config vite.config.botway.js",

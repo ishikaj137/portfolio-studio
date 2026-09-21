@@ -1,4 +1,4 @@
-import { ThemeProvider, useTheme } from './ThemeContext'
+import { ThemeProvider } from './ThemeContext'
 import { RouterProvider } from './RouterContext'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -9,14 +9,12 @@ import Contact from './components/Contact'
 import GlowCursor from './components/GlowCursor'
 
 function AppContent() {
-  const { theme } = useTheme()
-
   return (
     <RouterProvider>
       <GlowCursor
         global
-        color={theme === 'light' ? '#3B6B38' : '#cd445d'}
-        secondaryColor={theme === 'light' ? '#7A7975' : '#a7a7a7'}
+        color="#cd445d"
+        secondaryColor="#a7a7a7"
         trailLength={42}
         trailWidth={10}
         trailTaper={0.8}
@@ -31,7 +29,7 @@ function AppContent() {
         idleFade
         idleTimeout={700}
         fadeDuration={900}
-        blendMode={theme === 'light' ? 'normal' : 'screen'}
+        blendMode="screen"
       />
       <Navbar />
       <main>
