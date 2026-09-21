@@ -91,7 +91,11 @@ const ScrollStack = ({
           ? scrollerRef.current.clientHeight
           : window.innerHeight;
 
-      const stackPositionPx = parsePercentage(stackPosition, containerHeight);
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+      const effectiveStackPosition = isMobile ? '10%' : stackPosition;
+      const effectiveItemStackDistance = isMobile ? Math.min(itemStackDistance, 14) : itemStackDistance;
+
+      const stackPositionPx = parsePercentage(effectiveStackPosition, containerHeight);
       const scaleEndPositionPx = parsePercentage(scaleEndPosition, containerHeight);
       const endElementTop = endElementTopRef.current;
 
@@ -100,9 +104,9 @@ const ScrollStack = ({
         if (!card) continue;
 
         const cardTop = cardTopsRef.current[i] || 0;
-        const triggerStart = cardTop - stackPositionPx - itemStackDistance * i;
+        const triggerStart = cardTop - stackPositionPx - effectiveItemStackDistance * i;
         const triggerEnd = cardTop - scaleEndPositionPx;
-        const pinStart = cardTop - stackPositionPx - itemStackDistance * i;
+        const pinStart = cardTop - stackPositionPx - effectiveItemStackDistance * i;
         const pinEnd = endElementTop - containerHeight / 2;
 
         const scaleProgress = calculateProgress(scrollTop, triggerStart, triggerEnd);
@@ -112,9 +116,9 @@ const ScrollStack = ({
 
         let translateY = 0;
         if (scrollTop >= pinStart && scrollTop <= pinEnd) {
-          translateY = scrollTop - cardTop + stackPositionPx + itemStackDistance * i;
+          translateY = scrollTop - cardTop + stackPositionPx + effectiveItemStackDistance * i;
         } else if (scrollTop > pinEnd) {
-          translateY = pinEnd - cardTop + stackPositionPx + itemStackDistance * i;
+          translateY = pinEnd - cardTop + stackPositionPx + effectiveItemStackDistance * i;
         }
 
         const rotStr = rotation ? ` rotate(${rotation}deg)` : '';
@@ -216,11 +220,15 @@ const ScrollStack = ({
 
   const getDistancePx = useCallback(
     dist => {
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
       if (typeof dist === 'string' && dist.endsWith('vh')) {
-        return (parseFloat(dist) / 100) * window.innerHeight;
+        const vhVal = parseFloat(dist);
+        const effectiveVh = isMobile ? Math.min(vhVal, 45) : vhVal;
+        return (effectiveVh / 100) * window.innerHeight;
       }
       if (typeof dist === 'string' && dist.endsWith('px')) {
-        return parseFloat(dist);
+        const pxVal = parseFloat(dist);
+        return isMobile ? Math.min(pxVal, 320) : pxVal;
       }
       return typeof dist === 'number' ? dist : parseFloat(dist) || 0;
     },

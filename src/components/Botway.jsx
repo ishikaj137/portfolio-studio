@@ -12,9 +12,12 @@ export default function Botway() {
   useEffect(() => {
     document.title = 'Botway — Coming Soon'
     const prevBg = document.body.style.backgroundColor
-    const prevOverflow = document.body.style.overflow
+    const prevBodyOverflow = document.body.style.overflow
+    const prevHtmlOverflow = document.documentElement.style.overflow
     document.body.style.backgroundColor = '#000000'
     document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
+    window.__lenis?.stop()
 
     videoRef.current?.play().catch(() => {})
     bgVideoRef.current?.play().catch(() => {})
@@ -22,7 +25,9 @@ export default function Botway() {
     return () => {
       document.title = 'northh.space — AI, GIS & Product Engineering Studio'
       document.body.style.backgroundColor = prevBg
-      document.body.style.overflow = prevOverflow
+      document.body.style.overflow = prevBodyOverflow
+      document.documentElement.style.overflow = prevHtmlOverflow
+      window.__lenis?.start()
     }
   }, [])
 

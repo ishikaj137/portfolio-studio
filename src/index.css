@@ -48,11 +48,27 @@ html[data-theme="dark"] {
 
   --pad-x:      52px;
   --pad-x-tab:  32px;
-  --pad-x-mob:  24px;
+  --pad-x-mob:  20px;
 
   --nav-bg:     rgba(10, 10, 9, 0.85);
   --nav-text:   #F0EFED;
   --nav-muted:  #666663;
+}
+
+@media (max-width: 900px) {
+  :root,
+  html,
+  html[data-theme="dark"] {
+    --pad-x: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root,
+  html,
+  html[data-theme="dark"] {
+    --pad-x: 20px;
+  }
 }
 
 html {

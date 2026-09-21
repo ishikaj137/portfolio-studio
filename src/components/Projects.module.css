@@ -59,82 +59,104 @@
   max-width: 620px;
 }
 
-/* ── 3-Column Dribbble Card Grid ── */
+/* ── 3-Column Studio Showcase Card Grid ── */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
+  gap: 24px;
 }
 
-/* ── Visual Media Card (matching reference) ── */
+/* ── High-Tech Studio Bento Card ── */
 .card {
   position: relative;
-  aspect-ratio: 3 / 4;
-  min-height: 490px;
-  border-radius: 26px;
+  min-height: 520px;
+  border-radius: 28px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0D0D0C;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
-  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.45);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.35s ease;
   user-select: none;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+}
+
+/* Mouse-follow border shine */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  padding: 1px;
+  background: radial-gradient(
+    450px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.28),
+    transparent 50%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 10;
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .card:hover {
   transform: translateY(-8px);
-  border-color: rgba(255, 255, 255, 0.28);
-  box-shadow: 0 28px 60px -12px rgba(0, 0, 0, 0.75);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.85),
+              0 0 35px -8px var(--accent-color, rgba(205, 68, 93, 0.25));
 }
 
-
-
-/* Background Artwork Image */
-.cardBg {
+/* Interactive Cursor Spotlight */
+.spotlight {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.card:hover .cardBg {
-  transform: scale(1.05);
-}
-
-/* Gradient Vignette Overlay */
-.cardOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(5, 5, 5, 0.72) 0%,
-    rgba(5, 5, 5, 0.15) 28%,
-    rgba(5, 5, 5, 0.35) 60%,
-    rgba(5, 5, 5, 0.95) 100%
+  background: radial-gradient(
+    550px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.045),
+    transparent 45%
   );
   pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* Card Content Container */
-.cardContent {
-  position: absolute;
-  inset: 0;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  z-index: 2;
+.card:hover .spotlight {
+  opacity: 1;
 }
 
-/* ── Top Bar inside Card ── */
+/* ── Top Visual Showcase Stage ── */
+.visualStage {
+  position: relative;
+  width: 100%;
+  height: 275px;
+  overflow: hidden;
+  border-radius: 26px 26px 0 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+/* Floating Top Bar with Profile Pill & Metric Badge */
 .topBar {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  right: 13px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  z-index: 6;
+  pointer-events: none;
 }
 
 .profilePill {
@@ -143,23 +165,24 @@
   gap: 7px;
   padding: 4px 11px 4px 5px;
   border-radius: 999px;
-  background: rgba(10, 10, 10, 0.68);
+  background: rgba(12, 12, 11, 0.72);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
 }
 
 .profileAvatar {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: #181817;
 }
 
 .profileName {
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
   color: #FFFFFF;
   letter-spacing: -0.01em;
@@ -175,29 +198,29 @@
 
 .badgeTag {
   font-family: var(--font-mono);
-  font-size: 9px;
-  font-weight: 500;
+  font-size: 8.5px;
+  font-weight: 600;
   padding: 2px 6px;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
 .metricBadge {
-  padding: 5px 12px;
-  border-radius: 14px;
-  background: rgba(10, 10, 10, 0.68);
+  padding: 4px 11px;
+  border-radius: 12px;
+  background: rgba(12, 12, 11, 0.72);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   text-align: right;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
 }
 
 .metricNumber {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   color: #FFFFFF;
   font-family: var(--font-mono);
@@ -206,7 +229,7 @@
 }
 
 .metricLabel {
-  font-size: 8.5px;
+  font-size: 8px;
   font-family: var(--font-mono);
   color: rgba(255, 255, 255, 0.65);
   text-transform: uppercase;
@@ -215,24 +238,193 @@
   margin-top: 1px;
 }
 
-/* ── Bottom Glassmorphic Panel (matching reference card widgets) ── */
-.bottomCardPanel {
+/* ── 3D MASCOT PORTAL STAGE (TriBoT) ── */
+.mascotStage {
+  position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 16px;
-  border-radius: 20px;
-  background: rgba(12, 12, 12, 0.68);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
-  transition: background-color 0.25s ease, border-color 0.25s ease;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    ellipse at 50% 65%,
+    rgba(205, 68, 93, 0.26) 0%,
+    rgba(6, 182, 212, 0.14) 45%,
+    rgba(13, 13, 12, 0.96) 75%
+  );
+  overflow: hidden;
 }
 
-.card:hover .bottomCardPanel {
-  background: rgba(16, 16, 16, 0.8);
-  border-color: rgba(255, 255, 255, 0.24);
+.mascotBacklight {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(205, 68, 93, 0.35) 0%,
+    rgba(245, 158, 11, 0.18) 50%,
+    transparent 70%
+  );
+  filter: blur(28px);
+  pointer-events: none;
+  animation: pulseBacklight 4s ease-in-out infinite alternate;
+}
+
+@keyframes pulseBacklight {
+  0% { opacity: 0.65; transform: scale(0.92); }
+  100% { opacity: 1; transform: scale(1.12); }
+}
+
+.telemetryRings {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.ringOuter {
+  position: absolute;
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  animation: rotateRing 32s linear infinite;
+}
+
+.ringInner {
+  position: absolute;
+  width: 165px;
+  height: 165px;
+  border-radius: 50%;
+  border: 1px solid rgba(6, 182, 212, 0.18);
+  animation: rotateRingReverse 22s linear infinite;
+}
+
+@keyframes rotateRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes rotateRingReverse {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+.mascotImg {
+  position: relative;
+  z-index: 3;
+  max-height: 190px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.75))
+          drop-shadow(0 0 16px rgba(205, 68, 93, 0.35));
+  animation: floatMascot 3.8s ease-in-out infinite;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+}
+
+@keyframes floatMascot {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.6deg);
+  }
+}
+
+.card:hover .mascotImg {
+  transform: scale(1.07) translateY(-5px);
+  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.85))
+          drop-shadow(0 0 25px rgba(205, 68, 93, 0.6))
+          drop-shadow(0 0 10px rgba(6, 182, 212, 0.5));
+}
+
+.cycloneGlow {
+  position: absolute;
+  bottom: 22px;
+  width: 75px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(6, 182, 212, 0.8) 0%, rgba(6, 182, 212, 0) 75%);
+  filter: blur(5px);
+  animation: pulseCyclone 2.2s ease-in-out infinite;
+}
+
+@keyframes pulseCyclone {
+  0%, 100% { opacity: 0.55; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+
+/* ── CINEMATIC VIEWPORT STAGE (GIS & Spatial Cards) ── */
+.photoStage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.cardBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover .cardBg {
+  transform: scale(1.06);
+}
+
+.photoOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 9, 0.45) 0%,
+    rgba(10, 10, 9, 0.08) 35%,
+    rgba(13, 13, 12, 0.95) 100%
+  );
+  pointer-events: none;
+}
+
+.cornerBracketTopLeft {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 10px;
+  height: 10px;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  z-index: 4;
+}
+
+.cornerBracketBottomRight {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 10px;
+  height: 10px;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-right: 1.5px solid rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* ── LOWER INFORMATION & ACTION DECK ── */
+.cardBody {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  flex: 1;
+  justify-content: space-between;
+  background: #0D0D0C;
+  position: relative;
+  z-index: 2;
 }
 
 .metaRow {
@@ -266,7 +458,7 @@
 .liveGroup {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   font-family: var(--font-mono);
   font-size: 9.5px;
   color: rgba(255, 255, 255, 0.85);
@@ -286,8 +478,14 @@
   50% { opacity: 0.4; transform: scale(0.85); }
 }
 
+.textGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .cardTitle {
-  font-size: 18px;
+  font-size: 17.5px;
   font-weight: 600;
   color: #FFFFFF;
   letter-spacing: -0.015em;
@@ -298,7 +496,7 @@
 .cardSubtitle {
   font-size: 12px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.72);
+  color: #94A3B8;
   line-height: 1.5;
   margin: 0;
   display: -webkit-box;
@@ -307,17 +505,35 @@
   overflow: hidden;
 }
 
-/* Dual Frosted Action Buttons (matching reference) */
+/* Tech Stack Micro-Pills */
+.techPillsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.techMicroPill {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: #CBD5E1;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  letter-spacing: 0.02em;
+}
+
+/* Dual Frosted Action Buttons */
 .actionButtonGroup {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.15fr 1fr;
   gap: 8px;
   margin-top: 4px;
 }
 
 .btnPrimary {
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   color: #FFFFFF;
   font-size: 12px;
   font-weight: 600;
@@ -326,7 +542,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 6px;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   text-decoration: none;
@@ -336,13 +552,13 @@
   background: #FFFFFF;
   color: #0A0A09;
   border-color: #FFFFFF;
-  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.35);
 }
 
 .btnSecondary {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
   font-size: 12px;
   font-weight: 500;
   padding: 9px 12px;
@@ -350,15 +566,63 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 6px;
   transition: all 0.2s ease;
   cursor: pointer;
 }
 
 .btnSecondary:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.12);
   color: #FFFFFF;
-  border-color: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btnArrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.btnPrimary:hover .btnArrow {
+  transform: translateX(3px);
+}
+
+/* TriBoT Chat Button Styling */
+.btnChat {
+  background: linear-gradient(135deg, #cd445d 0%, #aa2f46 100%) !important;
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 14px rgba(205, 68, 93, 0.4);
+  font-weight: 600;
+}
+
+.card:hover .btnChat {
+  background: #de4767 !important;
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 6px 20px rgba(205, 68, 93, 0.6) !important;
+}
+
+.btnChat:hover {
+  background: #de4767 !important;
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(205, 68, 93, 0.65) !important;
+}
+
+.btnDemoDirect:hover {
+  background: rgba(205, 68, 93, 0.15) !important;
+  border-color: rgba(205, 68, 93, 0.4) !important;
+  color: #FFFFFF !important;
+}
+
+.chatSparkle {
+  color: #ffe4ea;
+  font-size: 11px;
+  animation: sparklePulse 1.8s infinite ease-in-out;
+}
+
+@keyframes sparklePulse {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.3); opacity: 1; }
 }
 
 /* ============================================================
@@ -376,6 +640,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
+  overscroll-behavior: contain;
 }
 
 .modalContainer {
@@ -384,6 +649,7 @@
   max-width: 860px;
   max-height: 90vh;
   overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 26px;
@@ -699,20 +965,53 @@
 
 @media (max-width: 680px) {
   .section {
-    padding: 70px 0 90px;
+    padding: 60px 0 80px;
+  }
+  .header {
+    margin-bottom: 32px;
   }
   .grid {
     grid-template-columns: 1fr;
-    max-width: 420px;
+    max-width: 440px;
     margin: 0 auto;
+    gap: 20px;
+  }
+  .card {
+    min-height: 420px;
+    border-radius: 22px;
+  }
+  .actionButtonGroup {
+    gap: 6px;
+  }
+  .btnPrimary,
+  .btnSecondary {
+    padding: 9px 10px;
+    font-size: 11.5px;
+  }
+  .modalBackdrop {
+    padding: 12px;
+  }
+  .modalContainer {
+    border-radius: 20px;
+    max-height: 94vh;
+  }
+  .modalHeroBanner {
+    height: 180px;
+    border-radius: 19px 19px 0 0;
+  }
+  .modalCloseBtn {
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
   }
   .modalBody {
-    padding: 20px;
-    gap: 20px;
+    padding: 18px 16px;
+    gap: 18px;
   }
   .modalColumns {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 18px;
   }
   .modalMetricsGrid {
     grid-template-columns: 1fr;
@@ -720,10 +1019,21 @@
   }
   .modalFooter {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px 0 0;
   }
   .modalActions {
     width: 100%;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .modalPrimaryBtn,
+  .modalSecondaryBtn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 14px;
+    font-size: 12px;
   }
 }

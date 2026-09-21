@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jago Chat Widget</title>
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Chatbot CSS -->
+    <link rel="stylesheet" href="chatbot.css">
+
+    <style>
+        /* Base styles for the page to display the widget properly */
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating Chatbot Toggle -->
+    <div class="floating-chat-btn" id="floatingChatBtn">
+        <img src="images/new-image.jpg" alt="Chat with Jago" class="floating-bot-img">
+    </div>
+
+    <!-- Chatbot Widget Component -->
+    <div class="chatbot-panel" id="chatbotPanel">
+        <!-- 1. Header -->
+        <div class="chat-header">
+            <div class="tricolor-bar"></div>
+            <div class="chat-identity">
+                <div class="avatar-container">
+                    <img src="images/tribotimg.png" alt="Jago" class="avatar-img">
+                    <span class="status-dot"></span>
+                </div>
+                <div class="chat-info">
+                    <h3 class="chat-name">Jago</h3>
+                </div>
+            </div>
+            <div class="chat-actions">
+                <!-- Custom Language Selector -->
+                <div class="lang-dropdown-wrapper" id="langDropdownWrapper">
+                    <button class="lang-pill-btn" id="langPillBtn" type="button" title="Select Language">
+                        <i class="ri-global-line globe-icon"></i>
+                        <span id="currentLangLabel">English</span>
+                        <i class="ri-arrow-down-s-line arrow-icon"></i>
+                    </button>
+                    <div class="lang-menu" id="langMenu">
+                        <div class="lang-menu-header">
+                            <i class="ri-translate-2"></i>
+                            <span>Select Language / भाषा चुनें</span>
+                        </div>
+                        <div class="lang-grid">
+                            <button type="button" class="lang-item active" data-lang="eng" data-label="English">
+                                <span class="lang-name">English</span>
+                                <span class="lang-badge">Default</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="hin" data-label="हिन्दी">
+                                <span class="lang-name">हिन्दी</span>
+                                <span class="lang-native">Hindi</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="gnd" data-label="Gondi">
+                                <span class="lang-name">Gondi</span>
+                                <span class="lang-native">गोंडी</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="sat" data-label="Santali">
+                                <span class="lang-name">Santali</span>
+                                <span class="lang-native">ᱥᱟᱱᱛᱟᱲᱤ</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="mun" data-label="Mundari">
+                                <span class="lang-name">Mundari</span>
+                                <span class="lang-native">मुंडारी</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="bhili" data-label="Bhili">
+                                <span class="lang-name">Bhili</span>
+                                <span class="lang-native">भीली</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="bettakuruba" data-label="Bettakuruba">
+                                <span class="lang-name">Bettakuruba</span>
+                                <span class="lang-native">ಬೆಟ್ಟ ಕುರುಬ</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="garo" data-label="Garo">
+                                <span class="lang-name">Garo</span>
+                                <span class="lang-native">A·chik</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="kokborok" data-label="Kokborok">
+                                <span class="lang-name">Kokborok</span>
+                                <span class="lang-native">Tripuri</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="koya" data-label="Koya">
+                                <span class="lang-name">Koya</span>
+                                <span class="lang-native">కోయ</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="kui" data-label="Kui">
+                                <span class="lang-name">Kui</span>
+                                <span class="lang-native">କୁଇ</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="languageSelect" value="eng">
+                <button class="header-btn" id="expandBtn" title="Expand">
+                    <i class="ri-expand-left-right-line"></i>
+                </button>
+                <button class="header-btn" id="newChatBtn" title="New Chat" style="display: none;">
+                    <i class="ri-refresh-line"></i>
+                </button>
+                <button class="header-btn" id="closeChatBtn" title="Close">
+                    <i class="ri-subtract-line"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. Body (Messages) -->
+        <div class="chat-body" id="messagesArea">
+            <div class="security-notice">
+                <i class="ri-shield-check-fill notice-icon"></i>
+                <p class="notice-text">Official Government Assistant. Your conversation is secure and private.</p>
+            </div>
+
+            <!-- Welcome Card -->
+            <div class="welcome-card">
+                <p class="welcome-greeting">Namaste! 🙏</p>
+                <p class="welcome-text">I am <strong>Jago</strong>, your official AI assistant for the Ministry of Tribal Affairs. Ask me about schemes, scholarships, eligibility, or any tribal welfare programme.</p>
+            </div>
+
+            <div class="suggestions-container" id="quickQueries" style="margin-top: auto;">
+                <span class="suggestions-label">SUGGESTED QUERIES</span>
+                <div class="suggestions-list">
+                    <button class="suggestion-chip quick-query-btn">What is PM-JANMAN?</button>
+                    <button class="suggestion-chip quick-query-btn">Apply for Scholarship</button>
+                    <button class="suggestion-chip quick-query-btn">FRA Claims Process</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Input Bar -->
+        <div class="chat-input-bar">
+            <!-- Typing Indicator -->
+            <div class="typing-indicator-bar" id="typingIndicator" style="display: none;">
+                <span class="typing-dots">
+                    <span>•</span><span>•</span><span>•</span>
+                </span>
+                <span style="margin-left: 6px;">Jago is typing...</span>
+            </div>
+
+            <div class="input-wrapper">
+                <button class="icon-btn" id="voiceBtn" title="Voice Input">
+                    <i class="ri-mic-line"></i>
+                </button>
+                <input type="text" class="chat-input" id="chatInput" placeholder="Ask about schemes, scholarships...">
+                <button class="send-btn" id="sendMessageBtn" title="Send Message">
+                    <i class="ri-send-plane-fill"></i>
+                </button>
+            </div>
+
+            <div class="security-footer">
+                <i class="ri-government-line"></i> Ministry of Tribal Affairs · <i class="ri-sparkling-2-fill"></i> AI Powered
+            </div>
+        </div>
+    </div>
+
+    <!-- API Service for Backend Connection -->
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

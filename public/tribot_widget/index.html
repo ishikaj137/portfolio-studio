@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TriBoT — Sovereign AI Assistant | Ministry of Tribal Affairs</title>
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Chatbot CSS -->
+    <link rel="stylesheet" href="chatbot.css">
+
+    <style>
+        /* Base styles for the iframe viewport */
+        html, body {
+            height: 100% !important;
+            min-height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+            background-color: #0E0E0D !important;
+            color: #EDEDED;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        *, *::before, *::after {
+            box-sizing: inherit;
+        }
+    </style>
+</head>
+
+<body class="embedded-mode">
+
+    <!-- Floating Chatbot Toggle (hidden in embedded mode) -->
+    <div class="floating-chat-btn" id="floatingChatBtn" style="display: none;">
+        <img src="images/tribotimg.png" alt="Chat with TriBoT" class="floating-bot-img">
+    </div>
+
+    <!-- Chatbot Widget Component -->
+    <div class="chatbot-panel open embedded-view" id="chatbotPanel">
+        <!-- 1. Header with Tricolor Sovereign Accent -->
+        <div class="chat-header">
+            <div class="tricolor-bar"></div>
+            
+            <div class="chat-identity">
+                <div class="avatar-container">
+                    <img src="images/tribotimg.png" alt="TriBoT Avatar" class="avatar-img">
+                    <span class="status-dot"></span>
+                </div>
+                <div class="chat-info">
+                    <div class="chat-title-row">
+                        <h3 class="chat-name">TriBoT</h3>
+                        <span class="rag-badge">SOVEREIGN RAG</span>
+                    </div>
+                    <p class="chat-status-text">
+                        <i class="ri-shield-check-fill" style="color: #10B981; font-size: 0.75rem;"></i>
+                        Ministry of Tribal Affairs · Verified Engine
+                    </p>
+                </div>
+            </div>
+
+            <div class="chat-actions">
+                <!-- Custom Language Selector with 11 Dialects -->
+                <div class="lang-dropdown-wrapper" id="langDropdownWrapper">
+                    <button class="lang-pill-btn" id="langPillBtn" type="button" title="Select Dialect / Language">
+                        <i class="ri-global-line globe-icon"></i>
+                        <span id="currentLangLabel">English</span>
+                        <i class="ri-arrow-down-s-line arrow-icon"></i>
+                    </button>
+                    <div class="lang-menu" id="langMenu">
+                        <div class="lang-menu-header">
+                            <i class="ri-translate-2"></i>
+                            <span>Select Language / भाषा चुनें</span>
+                        </div>
+                        <div class="lang-grid">
+                            <button type="button" class="lang-item active" data-lang="eng" data-label="English">
+                                <span class="lang-name">English</span>
+                                <span class="lang-badge">Official</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="hin" data-label="हिन्दी">
+                                <span class="lang-name">हिन्दी</span>
+                                <span class="lang-native">Hindi</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="gnd" data-label="Gondi">
+                                <span class="lang-name">Gondi</span>
+                                <span class="lang-native">गोंडी</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="sat" data-label="Santali">
+                                <span class="lang-name">Santali</span>
+                                <span class="lang-native">ᱥᱟᱱᱛᱟᱲᱤ</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="mun" data-label="Mundari">
+                                <span class="lang-name">Mundari</span>
+                                <span class="lang-native">मुंडारी</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="bhili" data-label="Bhili">
+                                <span class="lang-name">Bhili</span>
+                                <span class="lang-native">भीली</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="bettakuruba" data-label="Bettakuruba">
+                                <span class="lang-name">Bettakuruba</span>
+                                <span class="lang-native">ಬೆಟ್ಟ ಕುರುಬ</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="garo" data-label="Garo">
+                                <span class="lang-name">Garo</span>
+                                <span class="lang-native">A·chik</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="kokborok" data-label="Kokborok">
+                                <span class="lang-name">Kokborok</span>
+                                <span class="lang-native">Tripuri</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="koya" data-label="Koya">
+                                <span class="lang-name">Koya</span>
+                                <span class="lang-native">కోయ</span>
+                            </button>
+                            <button type="button" class="lang-item" data-lang="kui" data-label="Kui">
+                                <span class="lang-name">Kui</span>
+                                <span class="lang-native">କୁଇ</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" id="languageSelect" value="eng">
+
+                <!-- Reset / New Session Button -->
+                <button class="header-btn" id="newChatBtn" title="Reset Session">
+                    <i class="ri-refresh-line"></i>
+                </button>
+
+                <!-- Expand and Close buttons (hidden in embedded mode) -->
+                <button class="header-btn" id="expandBtn" title="Expand" style="display: none;">
+                    <i class="ri-expand-left-right-line"></i>
+                </button>
+                <button class="header-btn" id="closeChatBtn" title="Close" style="display: none;">
+                    <i class="ri-subtract-line"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. Body (Messages List + Watermark + Welcome) -->
+        <div class="chat-body" id="messagesArea">
+            <!-- Official Security Badge -->
+            <div class="security-notice">
+                <i class="ri-shield-keyhole-line notice-icon"></i>
+                <p class="notice-text">
+                    <strong>Official MoTA Sovereign Assistant:</strong> Audited RAG pipeline grounded in 15,000+ ministerial gazettes. Zero data retention outside government CUG.
+                </p>
+            </div>
+
+            <!-- Welcome HUD Card -->
+            <div class="welcome-card">
+                <div class="welcome-top">
+                    <span class="welcome-badge">✦ SOVEREIGN KNOWLEDGE BASE</span>
+                    <p class="welcome-greeting">Namaste! 🙏</p>
+                </div>
+                <p class="welcome-text">
+                    I am <strong>TriBoT</strong>, official Sovereign AI assistant for the <strong>Ministry of Tribal Affairs</strong>. 
+                    Ask me about welfare schemes, scholarships, eligibility criteria, forest rights claims, or EMRS admissions.
+                </p>
+            </div>
+
+            <!-- Suggested Queries Container -->
+            <div class="suggestions-container" id="quickQueries">
+                <span class="suggestions-label">SUGGESTED OPERATIONAL QUERIES</span>
+                <div class="suggestions-list">
+                    <button class="suggestion-chip quick-query-btn" type="button">What is PM-JANMAN?</button>
+                    <button class="suggestion-chip quick-query-btn" type="button">Apply for Scholarship</button>
+                    <button class="suggestion-chip quick-query-btn" type="button">FRA Claims Process</button>
+                    <button class="suggestion-chip quick-query-btn" type="button">EMRS Guidelines</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Bottom Pinned Input Bar -->
+        <div class="chat-input-bar">
+            <!-- Typing Indicator -->
+            <div class="typing-indicator-bar" id="typingIndicator" style="display: none;">
+                <span class="typing-dots">
+                    <span>•</span><span>•</span><span>•</span>
+                </span>
+                <span style="margin-left: 8px;">TriBoT is retrieving verified gazettes...</span>
+            </div>
+
+            <div class="input-wrapper">
+                <button class="icon-btn" id="voiceBtn" title="Voice Input" type="button">
+                    <i class="ri-mic-line"></i>
+                </button>
+                <input 
+                    type="text" 
+                    class="chat-input" 
+                    id="chatInput" 
+                    placeholder="Ask about PM-JANMAN, scholarships, FRA claims..." 
+                    autocomplete="off"
+                >
+                <button class="send-btn" id="sendMessageBtn" title="Send Query" type="button">
+                    <i class="ri-send-plane-fill"></i>
+                </button>
+            </div>
+
+            <div class="security-footer">
+                <i class="ri-government-line"></i> Ministry of Tribal Affairs · <i class="ri-sparkling-2-fill" style="color: #cd445d;"></i> Sovereign AI Engine · Sub-Second RAG
+            </div>
+        </div>
+    </div>
+
+    <!-- API Service for Backend Connection & Mock Fallback -->
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -417,29 +417,87 @@
     gap: 20px;
   }
   .bannerLeft {
-    max-width: 60%;
+    max-width: 70%;
+  }
+  .heroBanner {
+    gap: 20px;
   }
 }
 
-@media (max-width: 580px) {
+@media (max-width: 640px) {
   .section {
-    padding: 70px 0 90px;
+    padding: 60px 0 80px;
   }
+
+  .header {
+    margin-bottom: 32px;
+  }
+
+  .stackCard {
+    border-radius: 20px;
+    padding: 10px;
+  }
+
   .heroBanner {
     flex-direction: column-reverse;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 16px;
-    padding: 20px 16px 16px;
+    padding: 20px 16px 18px;
+    min-height: auto;
+    border-radius: 16px;
   }
-  .bannerLeft {
-    max-width: 100%;
-  }
+
   .bannerRight {
     align-self: center;
     width: 100px;
+    height: 100px;
+    margin: 0 auto;
   }
+
   .avatarImage {
-    width: 96px;
-    height: 96px;
+    width: 90px;
+    height: 90px;
+  }
+
+  .bannerLeft {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .cardTitle {
+    font-size: clamp(20px, 5.5vw, 24px);
+    margin-bottom: 6px;
+  }
+
+  .cardDesc {
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+
+  .metaRow {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    font-size: 12px;
+    margin-bottom: 14px;
+  }
+
+  .bottomBar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px 14px 10px;
+  }
+
+  .bottomInfo {
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .actionBtn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 18px;
+    font-size: 13px;
   }
 }

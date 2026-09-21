@@ -17,8 +17,20 @@ export default function Navbar() {
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+      document.documentElement.style.overflow = 'hidden'
+      window.__lenis?.stop()
+    } else {
+      document.body.style.overflow = ''
+      document.documentElement.style.overflow = ''
+      window.__lenis?.start()
+    }
+    return () => {
+      document.body.style.overflow = ''
+      document.documentElement.style.overflow = ''
+      window.__lenis?.start()
+    }
   }, [menuOpen])
 
   const closeMenu = () => setMenuOpen(false)

@@ -2,13 +2,13 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  min-height: 600px;
+  height: 100svh;
+  min-height: 540px;
   overflow: hidden;
   background: var(--bg);
   display: flex;
   align-items: flex-end;
 }
-
 
 /* ── Ghost Fibers Background ── */
 .fibersBg {
@@ -171,13 +171,22 @@
 /* ── Responsive ── */
 @media (max-width: 640px) {
   .content {
-    padding: 0 var(--pad-x-mob) 60px;
+    padding: 0 var(--pad-x-mob) 48px;
     gap: 16px;
   }
+  .heading {
+    font-size: clamp(28px, 8vw, 42px);
+    line-height: 1.12;
+  }
+  .sub {
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .ctas {
+    gap: 20px;
+  }
   .proof {
-    right: var(--pad-x-mob);
-    bottom: 18px;
-    font-size: 9px;
+    display: none;
   }
 }
 
@@ -187,5 +196,6 @@
   }
   .proof {
     right: var(--pad-x-tab);
+    bottom: 24px;
   }
 }

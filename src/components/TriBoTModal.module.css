@@ -1,0 +1,820 @@
+/* ============================================================
+   TRIBOT TWO-STAGE MODAL — Dark Neon/Glass HUD Aesthetic
+   Stage 1: Overview & Case Study
+   Stage 2: Live Sandboxed Interactive Demo
+============================================================ */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(5, 5, 5, 0.84);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overscroll-behavior: contain;
+}
+
+.modalContainer {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: min(90vh, 820px);
+  background: #111110;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  box-shadow: 0 32px 85px -15px rgba(0, 0, 0, 0.95),
+              0 0 45px -8px rgba(205, 68, 93, 0.22);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+/* ── Persistent Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: rgba(18, 18, 17, 0.96);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+  gap: 16px;
+  z-index: 5;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.avatarWrap {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(205, 68, 93, 0.6);
+  box-shadow: 0 0 10px rgba(205, 68, 93, 0.35);
+}
+
+.onlineDot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #10B981;
+  border: 2px solid #111110;
+  box-shadow: 0 0 8px #10B981;
+}
+
+.headerTitleGroup {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.botTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+}
+
+.checkBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.5);
+  color: #10B981;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.ragBadge {
+  font-family: var(--font-mono, monospace);
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(205, 68, 93, 0.16);
+  color: #ff528e;
+  border: 1px solid rgba(205, 68, 93, 0.35);
+}
+
+.headerSub {
+  font-size: 11px;
+  color: #71717A;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── 2-Tab Navigation Switcher ── */
+.tabsNav {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.tabBtn {
+  background: transparent;
+  border: none;
+  color: #A1A1AA;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 7px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.tabBtn:hover {
+  color: #FFFFFF;
+}
+
+.tabActive {
+  background: rgba(205, 68, 93, 0.25);
+  color: #FFFFFF;
+  border: 1px solid rgba(205, 68, 93, 0.5);
+  box-shadow: 0 0 14px rgba(205, 68, 93, 0.35);
+  font-weight: 600;
+}
+
+.sparkleIcon {
+  font-size: 11px;
+  color: #ff6b8b;
+}
+
+.closeBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #A1A1AA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.26);
+  transform: rotate(90deg) scale(1.05);
+}
+
+/* ── Stage Body (Main Crossfade Area) ── */
+.stageBody {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+}
+
+/* ============================================================
+   STAGE 1: OVERVIEW PANE
+============================================================ */
+.overviewPane {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.overviewPane::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Bespoke Project Header (No AI stock artwork!) ── */
+.overviewHero {
+  position: relative;
+  width: 100%;
+  background: radial-gradient(
+    circle at 85% 45%,
+    rgba(205, 68, 93, 0.22) 0%,
+    rgba(6, 182, 212, 0.1) 42%,
+    #111110 75%
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 30px 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+.heroLeftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 620px;
+}
+
+.heroTaglinePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  color: #ff7597;
+  letter-spacing: 0.06em;
+}
+
+.heroTaglineDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px #10B981;
+}
+
+.overviewTitle {
+  font-size: clamp(23px, 3.2vw, 30px);
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+  line-height: 1.18;
+  margin: 0;
+}
+
+.overviewTagline {
+  font-size: 13.5px;
+  color: #94A3B8;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.heroBadgesRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.heroBadge {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  color: #E2E8F0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.heroMascotWrap {
+  position: relative;
+  width: 140px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.heroMascotImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6))
+          drop-shadow(0 0 15px rgba(205, 68, 93, 0.4));
+  animation: floatMascotModal 3.6s ease-in-out infinite;
+}
+
+@keyframes floatMascotModal {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+.heroMascotAura {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(205, 68, 93, 0.4) 0%,
+    rgba(6, 182, 212, 0.18) 50%,
+    transparent 70%
+  );
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+.heroMascotBaseGlow {
+  position: absolute;
+  bottom: 8px;
+  width: 60px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(6, 182, 212, 0.9) 0%, transparent 75%);
+  filter: blur(4px);
+}
+
+/* ── 4-Card Operational Benchmark Grid ── */
+.statsSection {
+  padding: 22px 34px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.statChip {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.statChip:hover {
+  border-color: rgba(205, 68, 93, 0.4);
+  transform: translateY(-2px);
+}
+
+.statVal {
+  font-size: 22px;
+  font-weight: 700;
+  color: #FFFFFF;
+  font-family: var(--font-mono, monospace);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.statLbl {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #F1F5F9;
+  letter-spacing: -0.01em;
+  margin-top: 2px;
+}
+
+.statDetail {
+  font-size: 10.5px;
+  color: #64748B;
+  line-height: 1.4;
+}
+
+/* ── Narrative Structured Cards ── */
+.narrativeGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 24px 34px;
+}
+
+.narrativeCol {
+  background: rgba(18, 18, 17, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.narrativeHeaderWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.narrativeTagRed {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  font-weight: 700;
+  color: #ff6b8b;
+  background: rgba(205, 68, 93, 0.15);
+  border: 1px solid rgba(205, 68, 93, 0.35);
+  padding: 3px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.narrativeTagGreen {
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  font-weight: 700;
+  color: #10B981;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 3px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.narrativeHeader {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.challengeList,
+.solutionList {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 12.5px;
+  color: #94A3B8;
+  line-height: 1.6;
+}
+
+.challengeList li strong {
+  color: #F87171;
+}
+
+.solutionList li strong {
+  color: #34D399;
+}
+
+/* ── Architecture Pipeline Blueprint Card ── */
+.archDiagramCard {
+  margin: 0 34px 24px;
+  background: rgba(16, 16, 15, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.archHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.archTitleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.archLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  color: #E2E8F0;
+  letter-spacing: 0.06em;
+}
+
+.archSub {
+  font-size: 11px;
+  color: #64748B;
+}
+
+.archBadge {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  color: #10B981;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.pipelineFlow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pipelineStep {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stepNum {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  color: #ff6b8b;
+}
+
+.stepTitle {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.stepDesc {
+  font-size: 10px;
+  color: #64748B;
+  line-height: 1.35;
+}
+
+.flowArrow {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* ── Categorized Tech Stack ── */
+.techSection {
+  padding: 0 34px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.techLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #71717A;
+  letter-spacing: 0.06em;
+}
+
+.techGroupsWrap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.techGroupCard {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.techGroupTitle {
+  font-family: var(--font-mono, monospace);
+  font-size: 9.5px;
+  font-weight: 600;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.techPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.techPill {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  color: #CBD5E1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+/* ── Overview Footer ── */
+.overviewFooter {
+  margin-top: auto;
+  padding: 16px 34px;
+  background: rgba(18, 18, 17, 0.96);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.footerInfo {
+  font-size: 12px;
+  color: #71717A;
+}
+
+.footerInfo strong {
+  color: #E4E4E7;
+  font-weight: 600;
+}
+
+.footerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stageCtaBtn {
+  background: linear-gradient(135deg, #cd445d 0%, #aa2f46 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 4px 16px rgba(205, 68, 93, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stageCtaBtn:hover {
+  background: #de4767;
+  transform: scale(1.03);
+  box-shadow: 0 6px 22px rgba(205, 68, 93, 0.6);
+}
+
+.secondaryCtaBtn {
+  background: transparent;
+  color: #A1A1AA;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 9px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 400;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.secondaryCtaBtn:hover {
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================================
+   STAGE 2: LIVE DEMO PANE (Actual MoTA Chatbot)
+============================================================ */
+.actualDemoPane {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  background: #0E0E0D;
+}
+
+.actualChatbotIframe {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  border: none;
+  flex: 1;
+  display: block;
+  background: #0E0E0D;
+}
+
+/* ============================================================
+   RESPONSIVE MODAL TUNING
+============================================================ */
+@media (max-width: 768px) {
+  .modalBackdrop {
+    padding: 12px;
+  }
+  .modalContainer {
+    height: 94vh;
+    border-radius: 22px;
+  }
+  .header {
+    padding: 14px 16px;
+  }
+  .overviewHero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 20px;
+    gap: 16px;
+  }
+  .heroMascotWrap {
+    align-self: center;
+    width: 110px;
+    height: 120px;
+  }
+  .statsSection {
+    padding: 18px 20px;
+  }
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .narrativeGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px;
+  }
+  .archDiagramCard {
+    margin: 0 20px 20px;
+    padding: 16px;
+  }
+  .pipelineFlow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .flowArrow {
+    display: none;
+  }
+  .techSection {
+    padding: 0 20px 24px;
+  }
+  .techGroupsWrap {
+    grid-template-columns: 1fr;
+  }
+  .overviewFooter {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px 20px;
+  }
+  .footerActions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .stageCtaBtn,
+  .secondaryCtaBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .headerSub {
+    display: none;
+  }
+  .tabsNav {
+    padding: 3px;
+  }
+  .tabBtn {
+    padding: 6px 12px;
+    font-size: 11.5px;
+  }
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}

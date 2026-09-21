@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { useRouter } from '../RouterContext'
+import TriBoTModal from './TriBoTModal'
 import styles from './Projects.module.css'
 
 const EASE = [0.16, 1, 0.3, 1]
@@ -10,8 +11,8 @@ const PROJECTS = [
     id: 'tribot',
     name: 'TriBoT',
     badgeTag: 'RAG AI',
-    image: '/projects/tribot.jpg',
-    avatar: '/avatars/ai.jpg',
+    image: '/projects/tribot-mascot.png',
+    avatar: '/avatars/tribot-avatar.png',
     topMetric: { val: '< 1.2s', lbl: 'Query Latency' },
     rating: '5.0',
     ratingDetail: '5K+ Docs Grounded',
@@ -27,7 +28,7 @@ const PROJECTS = [
       { value: '100%', label: 'Grounded Responses' },
       { value: '5,000+', label: 'Documents Indexed' },
     ],
-    tags: ['AI Assistant', 'RAG', 'GovTech', 'FastAPI'],
+    tags: ['RAG Pipeline', 'FastAPI', 'pgvector'],
     challenge: 'Government welfare schemes and constitutional rights documentation spanned thousands of complex administrative circulars. Citizens and field administrators struggled with slow discovery, bureaucratic legal jargon, and inconsistent interpretations across regional departments.',
     solution: 'Engineered a sovereign enterprise RAG assistant featuring semantic vector embeddings, chunked domain taxonomies, cross-encoder re-ranking, and strict document source citations to guarantee hallucination-free explanations in simple language.',
     technologies: ['OpenAI GPT-4', 'LangChain', 'Python', 'FastAPI', 'Qdrant Vector DB', 'Docker', 'React'],
@@ -61,7 +62,7 @@ const PROJECTS = [
       { value: '60 FPS', label: 'Vector Speed' },
       { value: '30+', label: 'Spatial Layers' },
     ],
-    tags: ['WebGIS', 'Geospatial', 'Mapbox GL', 'PostGIS'],
+    tags: ['WebGIS', 'Mapbox GL', 'PostGIS'],
     challenge: 'Forest rights claims, cadastral maps, revenue village boundaries, and satellite imagery existed in fragmented GIS formats. Decision-makers lacked a unified, real-time spatial platform to inspect boundary conflicts, overlaps, and historical claim progress.',
     solution: 'Designed and engineered an enterprise WebGIS platform streaming dynamic vector tiles with spatial buffering, multi-criteria layer filtering, automated parcel overlap detection, and administrative telemetry dashboards.',
     technologies: ['React', 'Mapbox GL JS', 'PostgreSQL', 'PostGIS', 'Node.js', 'GeoServer', 'Turf.js'],
@@ -95,7 +96,7 @@ const PROJECTS = [
       { value: '3.5x', label: 'Survey Speedup' },
       { value: '0.01%', label: 'Sync Errors' },
     ],
-    tags: ['Mobile GIS', 'Offline-First', 'SQLite', 'Telemetry'],
+    tags: ['Mobile GIS', 'Offline-First', 'SQLite'],
     challenge: 'Field teams conducted land surveys in dense jungle and rural valleys where mobile connectivity was completely absent. Generic mobile survey apps suffered data loss, GPS inaccuracies, and manual paper-logging backlogs.',
     solution: 'Engineered an offline-first mobile survey application featuring local SQLite spatial caching, high-accuracy GPS polygon collection, timestamped geotagged camera capture, and conflict-free background synchronizations upon network discovery.',
     technologies: ['React Native', 'SQLite', 'Mapbox Mobile', 'Turf.js', 'Python', 'FastAPI'],
@@ -113,18 +114,35 @@ const PROJECTS = [
 function ProjectCard({ project, onSelect, delay }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-50px' })
+  const isTriBoT = project.id === 'tribot'
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+
+  const handleMouseMove = (e) => {
+    if (!ref.current) return
+    const rect = ref.current.getBoundingClientRect()
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    })
+  }
 
   return (
     <motion.article
       ref={ref}
       className={styles.card}
-      onClick={() => onSelect(project)}
+      onClick={() => onSelect(project, 'overview')}
+      onMouseMove={handleMouseMove}
+      style={{
+        '--mouse-x': `${mousePos.x}px`,
+        '--mouse-y': `${mousePos.y}px`,
+        '--accent-color': project.accentColor,
+      }}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault()
-          onSelect(project)
+          onSelect(project, 'overview')
         }
       }}
       aria-label={`View details for ${project.name}`}
@@ -132,20 +150,12 @@ function ProjectCard({ project, onSelect, delay }) {
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, ease: EASE, delay }}
     >
-      {/* Background Media */}
-      <img
-        src={project.image}
-        alt={project.name}
-        className={styles.cardBg}
-        loading="lazy"
-      />
+      {/* Interactive Cursor Spotlight */}
+      <div className={styles.spotlight} />
 
-      {/* Dark Vignette Overlay */}
-      <div className={styles.cardOverlay} />
-
-      {/* Floating Card Content */}
-      <div className={styles.cardContent}>
-        {/* Top Header Bar */}
+      {/* Top Visual Showcase Stage */}
+      <div className={styles.visualStage}>
+        {/* Floating Top Bar with Profile Pill & Metric Badge */}
         <div className={styles.topBar}>
           <div className={styles.profilePill}>
             <img src={project.avatar} alt="" className={styles.profileAvatar} />
@@ -164,48 +174,127 @@ function ProjectCard({ project, onSelect, delay }) {
           </div>
         </div>
 
-        {/* Bottom Glassmorphic Panel */}
-        <div className={styles.bottomCardPanel}>
-          <div className={styles.metaRow}>
-            <div className={styles.ratingGroup}>
-              <span className={styles.starScore}>★ {project.rating}</span>
-              <span className={styles.ratingSubtext}>&middot; {project.ratingDetail}</span>
+        {/* Visual Content: 3D Mascot Portal for TriBoT vs Cinematic Viewport for GIS */}
+        {isTriBoT ? (
+          <div className={styles.mascotStage}>
+            {/* Ambient Multi-Layer Glowing Auras */}
+            <div className={styles.mascotBacklight} />
+            <div className={styles.telemetryRings}>
+              <span className={styles.ringOuter} />
+              <span className={styles.ringInner} />
             </div>
 
-            <div className={styles.liveGroup}>
-              <span
-                className={styles.statusDot}
-                style={{ backgroundColor: project.accentColor }}
-              />
-              <span>{project.status}</span>
-            </div>
+            {/* Floating 3D Mascot Image */}
+            <img
+              src={project.image}
+              alt="TriBoT 3D AI Mascot"
+              className={styles.mascotImg}
+              loading="lazy"
+            />
+
+            {/* Cyan Energy Cyclone Base Pulse */}
+            <div className={styles.cycloneGlow} />
+          </div>
+        ) : (
+          <div className={styles.photoStage}>
+            {/* High-tech Viewport Corner HUD Brackets */}
+            <div className={styles.cornerBracketTopLeft} />
+            <div className={styles.cornerBracketBottomRight} />
+
+            <img
+              src={project.image}
+              alt={project.name}
+              className={styles.cardBg}
+              loading="lazy"
+            />
+            <div className={styles.photoOverlay} />
+          </div>
+        )}
+      </div>
+
+      {/* Lower Information & Action Deck */}
+      <div className={styles.cardBody}>
+        {/* Live Status & Rating Meta Row */}
+        <div className={styles.metaRow}>
+          <div className={styles.ratingGroup}>
+            <span className={styles.starScore}>★ {project.rating}</span>
+            <span className={styles.ratingSubtext}>&middot; {project.ratingDetail}</span>
           </div>
 
-          <div>
-            <h3 className={styles.cardTitle}>{project.title}</h3>
-            <p className={styles.cardSubtitle}>{project.subtitle}</p>
+          <div className={styles.liveGroup}>
+            <span
+              className={styles.statusDot}
+              style={{ backgroundColor: project.accentColor }}
+            />
+            <span>{project.status}</span>
           </div>
+        </div>
 
-          <div className={styles.actionButtonGroup}>
-            <button
-              className={styles.btnPrimary}
-              onClick={(e) => {
-                e.stopPropagation()
-                onSelect(project)
-              }}
-            >
-              Case Study ↗
-            </button>
-            <button
-              className={styles.btnSecondary}
-              onClick={(e) => {
-                e.stopPropagation()
-                onSelect(project)
-              }}
-            >
-              {project.secondaryBtnText}
-            </button>
-          </div>
+        {/* Title and Subtitle */}
+        <div className={styles.textGroup}>
+          <h3 className={styles.cardTitle}>{project.title}</h3>
+          <p className={styles.cardSubtitle}>{project.subtitle}</p>
+        </div>
+
+        {/* Tech Stack Micro-Pills */}
+        <div className={styles.techPillsRow}>
+          {project.tags.slice(0, 3).map((tag, idx) => (
+            <span key={idx} className={styles.techMicroPill}>
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        {/* Action Button Group */}
+        <div className={styles.actionButtonGroup}>
+          {isTriBoT ? (
+            <>
+              <button
+                className={`${styles.btnPrimary} ${styles.btnChat}`}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onSelect(project, 'overview')
+                }}
+                aria-label="Explore TriBoT project overview"
+              >
+                <span>Explore TriBoT</span>
+                <span className={styles.btnArrow}>→</span>
+              </button>
+              <button
+                className={`${styles.btnSecondary} ${styles.btnDemoDirect}`}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onSelect(project, 'demo')
+                }}
+                aria-label="Open TriBoT live demo directly"
+              >
+                <span className={styles.chatSparkle}>✦</span>
+                <span>Live Demo ↗</span>
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className={styles.btnPrimary}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onSelect(project, 'overview')
+                }}
+              >
+                <span>Case Study</span>
+                <span className={styles.btnArrow}>↗</span>
+              </button>
+              <button
+                className={styles.btnSecondary}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onSelect(project, 'overview')
+                }}
+              >
+                {project.secondaryBtnText}
+              </button>
+            </>
+          )}
         </div>
       </div>
     </motion.article>
@@ -220,12 +309,20 @@ function CaseStudyModal({ project, onClose }) {
       if (e.key === 'Escape') onClose()
     }
     window.addEventListener('keydown', handleKeyDown)
-    const prevOverflow = document.body.style.overflow
+    const prevBodyOverflow = document.body.style.overflow
+    const prevHtmlOverflow = document.documentElement.style.overflow
     document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
+
+    // Stop Lenis background scrolling while modal is active
+    window.__lenis?.stop()
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
-      document.body.style.overflow = prevOverflow
+      document.body.style.overflow = prevBodyOverflow
+      document.documentElement.style.overflow = prevHtmlOverflow
+      // Resume Lenis background scrolling on close
+      window.__lenis?.start()
     }
   }, [onClose])
 
@@ -239,6 +336,9 @@ function CaseStudyModal({ project, onClose }) {
     <motion.div
       className={styles.modalBackdrop}
       onClick={onClose}
+      onWheel={(e) => e.stopPropagation()}
+      onTouchMove={(e) => e.stopPropagation()}
+      data-lenis-prevent="true"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -250,6 +350,8 @@ function CaseStudyModal({ project, onClose }) {
       <motion.div
         className={styles.modalContainer}
         onClick={(e) => e.stopPropagation()}
+        onWheel={(e) => e.stopPropagation()}
+        data-lenis-prevent="true"
         initial={{ scale: 0.94, y: 16, opacity: 0 }}
         animate={{ scale: 1, y: 0, opacity: 1 }}
         exit={{ scale: 0.94, y: 16, opacity: 0 }}
@@ -393,6 +495,12 @@ function CaseStudyModal({ project, onClose }) {
 
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(null)
+  const [modalTab, setModalTab] = useState('overview')
+
+  const handleSelectProject = (project, tab = 'overview') => {
+    setSelectedProject(project)
+    setModalTab(tab)
+  }
 
   return (
     <section id="work" className={styles.section} aria-labelledby="projects-heading">
@@ -418,20 +526,28 @@ export default function Projects() {
             <ProjectCard
               key={project.id}
               project={project}
-              onSelect={setSelectedProject}
+              onSelect={handleSelectProject}
               delay={i * 0.12}
             />
           ))}
         </div>
       </div>
 
-      {/* Case Study Popup Modal */}
+      {/* Two-Stage TriBoT Modal or Standard Case Study Modal */}
       <AnimatePresence>
         {selectedProject && (
-          <CaseStudyModal
-            project={selectedProject}
-            onClose={() => setSelectedProject(null)}
-          />
+          selectedProject.id === 'tribot' ? (
+            <TriBoTModal
+              project={selectedProject}
+              initialTab={modalTab}
+              onClose={() => setSelectedProject(null)}
+            />
+          ) : (
+            <CaseStudyModal
+              project={selectedProject}
+              onClose={() => setSelectedProject(null)}
+            />
+          )
         )}
       </AnimatePresence>
     </section>
