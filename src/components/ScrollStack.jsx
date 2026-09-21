@@ -145,15 +145,29 @@ const ScrollStack = ({
     ]
   );
 
+  const scrollListenerCleanupRef = useRef(null);
+
   const setupLenis = useCallback(() => {
     if (useWindowScroll) {
+      if (window.__lenis) {
+        const onScroll = ({ scroll }) => {
+          updateCardTransforms(scroll);
+        };
+        window.__lenis.on('scroll', onScroll);
+        scrollListenerCleanupRef.current = () => {
+          window.__lenis?.off('scroll', onScroll);
+        };
+        lenisRef.current = window.__lenis;
+        return window.__lenis;
+      }
+
       const lenis = new Lenis({
-        duration: 0.9,
+        duration: 1.2,
         easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
         touchMultiplier: 1.2,
         infinite: false,
-        wheelMultiplier: 0.95,
+        wheelMultiplier: 1.0,
       });
 
       lenis.on('scroll', ({ scroll }) => {
@@ -175,14 +189,14 @@ const ScrollStack = ({
       const lenis = new Lenis({
         wrapper: scroller,
         content: scroller.querySelector('.scroll-stack-inner'),
-        duration: 0.9,
+        duration: 1.2,
         easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
         touchMultiplier: 1.2,
         infinite: false,
         gestureOrientationHandler: true,
         normalizeWheel: true,
-        wheelMultiplier: 0.95,
+        wheelMultiplier: 1.0,
       });
 
       lenis.on('scroll', ({ scroll }) => {
@@ -242,12 +256,17 @@ const ScrollStack = ({
     updateCardTransforms();
 
     return () => {
+      if (scrollListenerCleanupRef.current) {
+        scrollListenerCleanupRef.current();
+        scrollListenerCleanupRef.current = null;
+      }
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
-      if (lenisRef.current) {
+      if (lenisRef.current && lenisRef.current !== window.__lenis) {
         lenisRef.current.destroy();
       }
+      lenisRef.current = null;
       stackCompletedRef.current = false;
       cardsRef.current = [];
     };

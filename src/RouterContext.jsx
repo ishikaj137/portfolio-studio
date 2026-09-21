@@ -39,21 +39,35 @@ export function RouterProvider({ children }) {
       setCurrentPath('/')
       setTimeout(() => {
         const el = document.querySelector(hashTarget)
-        if (el) el.scrollIntoView({ behavior: 'smooth' })
-      }, 80)
+        if (el) {
+          if (window.__lenis) {
+            window.__lenis.scrollTo(el, { offset: -30, duration: 1.2 })
+          } else {
+            el.scrollIntoView({ behavior: 'smooth' })
+          }
+        }
+      }, 50)
       return
     }
 
     if (to === '/' || to === '') {
       window.history.pushState({}, '', '/')
       setCurrentPath('/')
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      if (window.__lenis) {
+        window.__lenis.scrollTo(0, { duration: 1.2 })
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
       return
     }
 
     window.history.pushState({}, '', to)
     setCurrentPath(to)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    if (window.__lenis) {
+      window.__lenis.scrollTo(0, { duration: 1.2 })
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
   }, [])
 
   return (
